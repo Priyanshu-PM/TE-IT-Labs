@@ -8,8 +8,8 @@ B. Thread synchronization and mutual exclusion using mutex.
   with reader priority.
 */
 
-// COMPILE: gcc assignment_4.c -o assign4out -lpthread
-// RUN: ./assign4out
+// COMPILE: prac4.c -o prac4 -lpthread
+// RUN: ./prac4
 
 #include <pthread.h>
 #include <semaphore.h>
