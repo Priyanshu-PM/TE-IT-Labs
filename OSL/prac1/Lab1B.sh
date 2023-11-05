@@ -1,4 +1,4 @@
-# for chanhing file permissions
+# for changing file permissions
 
 # chmod +x Lab1B.sh
 
