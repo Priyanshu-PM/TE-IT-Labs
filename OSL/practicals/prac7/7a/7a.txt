@@ -1,0 +1,9 @@
+
+NO. OF CHARACTERS = 20
+
+NO. OF LETTERS = 18
+
+NO. OF WORDS = 2
+
+NO. OF LINES = 0
+ÿ
