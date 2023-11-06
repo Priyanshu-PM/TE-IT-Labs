@@ -124,6 +124,89 @@ int calculateTotalSeekTimeLook(vector<int>& requestQueue, int initialHead, int m
     return seekTime;
 }
 
+
+int calculateTotalSeekTimeC_Look(vector<int>& requestQueue, int numRequests, int initialHead, int maxRange, int minRange){
+    int seekTime = 0;
+    int headPosition = initialHead;
+    int startIndex = 0;
+
+    // Sort the requests
+    for (int i = 0; i < numRequests - 1; i++) {
+        for (int j = 0; j < numRequests - 1 - i; j++) {
+            if (requestQueue[j] > requestQueue[j + 1]) {
+                int temp = requestQueue[j];
+                requestQueue[j] = requestQueue[j + 1];
+                requestQueue[j + 1] = temp;
+            }
+        }
+    }
+    //find the greater index
+    for (int i = 0; i < numRequests; i++) {
+        if (requestQueue[i] > headPosition) {
+            startIndex = i;
+            break;
+        }
+    }
+
+    //decide the direction
+    int seekRight = abs(requestQueue[startIndex] - headPosition);
+    int seekLeft = abs(requestQueue[startIndex - 1] - headPosition);
+    printf("\nSeekRight: %d", seekRight);
+    printf("\nSeekLeft: %d", seekLeft);
+
+    int direction;
+    printf("\n1.Left Direction(Lower values)");
+    printf("\n2.Right Direction(Greater values)");
+    printf("\nChoose the direction: ");
+    scanf("%d", &direction);
+    if(direction == 1){ //Left direction
+        printf("\nSeek time towards left is minimum so moving towards left...");
+        printf("\n----------------------------------------------------------------------");
+        printf("\nSeek Sequence: %d", headPosition);
+
+        for (int i = startIndex - 1; i >= 0; i--) {
+            seekTime += abs(requestQueue[i] - headPosition);
+            headPosition = requestQueue[i];
+            printf(" -> %d", headPosition);
+        }
+        seekTime += abs(requestQueue[numRequests-1] - headPosition);
+        headPosition = requestQueue[numRequests-1];
+        printf(" -> %d", headPosition);
+        for (int i = numRequests-2; i>=startIndex; i--) {
+            seekTime += abs(requestQueue[i] - headPosition);
+            headPosition = requestQueue[i];
+            printf(" -> %d", headPosition);
+        }
+    }
+    else if(direction == 2){
+        printf("\nSeek time towards right is minimum or equal so moving towards right...");
+        printf("\n----------------------------------------------------------------------");
+        printf("\nSeek Sequence: %d", headPosition);
+
+        for (int i = startIndex; i < numRequests; i++) {
+            seekTime += abs(requestQueue[i] - headPosition);
+            headPosition = requestQueue[i];
+            printf(" -> %d", headPosition);
+        }
+        seekTime += abs(requestQueue[0] - headPosition);
+        headPosition = requestQueue[0];
+        printf(" -> %d", headPosition);
+        for (int i = 1; i <=startIndex-1; i++) {
+            seekTime += abs(requestQueue[i] - headPosition);
+            headPosition = requestQueue[i];
+            printf(" -> %d", headPosition);
+        }
+    }
+
+    printf("\nTotal number of seek operations: %d", seekTime);
+
+    float avgSeekTime = (float)seekTime / numRequests;
+    printf("\nAverage Seek Time is %.2f\n", avgSeekTime);
+    printf("\n");
+    return seekTime;
+}
+
+
 int calculateTotalSeekTimeSCAN(vector<int>& requestQueue, int numRequests, int initialHead, int maxRange, int minRange) {
     int seekTime = 0;
     int headPosition = initialHead;
@@ -279,87 +362,6 @@ int calculateTotalSeekTimeC_SCAN(vector<int>& requestQueue, int numRequests, int
         headPosition = minRange;
         printf(" -> %d", headPosition);
         for (int i = 0; i <=startIndex-1; i++) {
-            seekTime += abs(requestQueue[i] - headPosition);
-            headPosition = requestQueue[i];
-            printf(" -> %d", headPosition);
-        }
-    }
-
-    printf("\nTotal number of seek operations: %d", seekTime);
-
-    float avgSeekTime = (float)seekTime / numRequests;
-    printf("\nAverage Seek Time is %.2f\n", avgSeekTime);
-    printf("\n");
-    return seekTime;
-}
-
-int calculateTotalSeekTimeC_Look(vector<int>& requestQueue, int numRequests, int initialHead, int maxRange, int minRange){
-    int seekTime = 0;
-    int headPosition = initialHead;
-    int startIndex = 0;
-
-    // Sort the requests
-    for (int i = 0; i < numRequests - 1; i++) {
-        for (int j = 0; j < numRequests - 1 - i; j++) {
-            if (requestQueue[j] > requestQueue[j + 1]) {
-                int temp = requestQueue[j];
-                requestQueue[j] = requestQueue[j + 1];
-                requestQueue[j + 1] = temp;
-            }
-        }
-    }
-    //find the greater index
-    for (int i = 0; i < numRequests; i++) {
-        if (requestQueue[i] > headPosition) {
-            startIndex = i;
-            break;
-        }
-    }
-
-    //decide the direction
-    int seekRight = abs(requestQueue[startIndex] - headPosition);
-    int seekLeft = abs(requestQueue[startIndex - 1] - headPosition);
-    printf("\nSeekRight: %d", seekRight);
-    printf("\nSeekLeft: %d", seekLeft);
-
-    int direction;
-    printf("\n1.Left Direction(Lower values)");
-    printf("\n2.Right Direction(Greater values)");
-    printf("\nChoose the direction: ");
-    scanf("%d", &direction);
-    if(direction == 1){ //Left direction
-        printf("\nSeek time towards left is minimum so moving towards left...");
-        printf("\n----------------------------------------------------------------------");
-        printf("\nSeek Sequence: %d", headPosition);
-
-        for (int i = startIndex - 1; i >= 0; i--) {
-            seekTime += abs(requestQueue[i] - headPosition);
-            headPosition = requestQueue[i];
-            printf(" -> %d", headPosition);
-        }
-        seekTime += abs(requestQueue[numRequests-1] - headPosition);
-        headPosition = requestQueue[numRequests-1];
-        printf(" -> %d", headPosition);
-        for (int i = numRequests-2; i>=startIndex; i--) {
-            seekTime += abs(requestQueue[i] - headPosition);
-            headPosition = requestQueue[i];
-            printf(" -> %d", headPosition);
-        }
-    }
-    else if(direction == 2){
-        printf("\nSeek time towards right is minimum or equal so moving towards right...");
-        printf("\n----------------------------------------------------------------------");
-        printf("\nSeek Sequence: %d", headPosition);
-
-        for (int i = startIndex; i < numRequests; i++) {
-            seekTime += abs(requestQueue[i] - headPosition);
-            headPosition = requestQueue[i];
-            printf(" -> %d", headPosition);
-        }
-        seekTime += abs(requestQueue[0] - headPosition);
-        headPosition = requestQueue[0];
-        printf(" -> %d", headPosition);
-        for (int i = 1; i <=startIndex-1; i++) {
             seekTime += abs(requestQueue[i] - headPosition);
             headPosition = requestQueue[i];
             printf(" -> %d", headPosition);
