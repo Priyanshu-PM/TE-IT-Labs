@@ -69,7 +69,7 @@ int reduce(vector<vector<int>> &cost, int n)
     } 
     return r; 
 } 
- 
+
 void tsp(vector<vector<int>> source, int n, int start) 
 { 
  
