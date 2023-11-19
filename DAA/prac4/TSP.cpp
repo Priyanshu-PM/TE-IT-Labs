@@ -8,7 +8,7 @@ void line(int l)
         cout << "_"; 
     cout << endl; 
 } 
- 
+
 void print_cost(vector<vector<int>> cost, int n) 
 { 
     for (int i = 0; i < n; i++) 
@@ -24,21 +24,31 @@ void print_cost(vector<vector<int>> cost, int n)
     } 
 } 
  
-void fillinf(vector<vector<int>> &cost, vector<int> trav, int n, int s, int d) 
+void fillinf(vector<vector<int>> &cost, vector<int> trav, int n, int src, int dest) 
 { 
-    cost[d][s] = inf; 
+    // making destination to source to infinity
+    cost[dest][src] = inf; 
+
+    // making distance to all previously visited nodes to infinity
+    //  so that, they don't get in calculation
     for (int t : trav) 
-        cost[d][t] = inf; 
+        cost[dest][t] = inf; 
+
+
     for (int i = 0; i < n; i++) 
     { 
-        cost[i][d] = inf; 
-        cost[s][i] = inf; 
+        //  making the particular row and column to infinity
+        //  so that, they don't get in calculation
+        cost[i][dest] = inf; 
+        cost[src][i] = inf; 
     } 
 } 
  
 int reduce(vector<vector<int>> &cost, int n) 
 { 
     int r = 0; 
+
+    // finding the minimum in row
     for (int i = 0; i < n; i++) 
     { 
         int row_min = cost[i][0]; 
@@ -53,6 +63,8 @@ int reduce(vector<vector<int>> &cost, int n)
                     cost[i][j] -= row_min; 
         } 
     } 
+
+    //  finding the minimum in column
     for (int j = 0; j < n; j++) 
     { 
         int col_min = cost[0][j]; 
@@ -79,6 +91,8 @@ start << "\n\n\n";
     line(50); 
     int s = start; 
     vector<int> trav; 
+
+    // first time reduction in cost
     int tcost = reduce(source, n); 
  
     while (trav.size() != n) 
@@ -94,11 +108,16 @@ start << "\n\n\n";
         line(50); 
         for (int i = 0; i < n; i++) 
         { 
+            //  skipping the current node and the previously traversed node
             if (i == s || count(trav.begin(), trav.end(), i)) 
                 continue; 
             vector<vector<int>> dest = source; 
             fillinf(dest, trav, n, s, i); 
+
+            //  reduction in cost
             int r = reduce(dest, n); 
+
+            //  C (parentCost) + C(src, indexnode) + reduction cost
             int c = tcost + source[s][i] + r; 
             print_cost(dest, n); 
             cout << "\nLocation = " << i << "\tCost" 
