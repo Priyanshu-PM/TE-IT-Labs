@@ -1,65 +1,114 @@
-//  Greedy Implementation of 0 / 1 Knapsack
-
-
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-void greedyKnapsack(vector<int>& weight, vector<int>& profit, int n, int maxWeight)
-{
+struct Item{
+    float profit;
+    float weight;
+    float pw_ratio;
+};
 
-    int maxProfit = 0;
 
-    vector<pair<float, pair<int, int>>> items;
-    for(int i = 0; i < n; i++)
-    {
-        float ratio = (float)profit[i]/ (float)weight[i];
-        items.push_back({ratio, {weight[i], profit[i]}});
+void printKnapsack(Item items[], int n){
+    cout<<"--------------printing-----------------"<<endl;
+    for(int i = 0; i<n; i++){
+        cout<<items[i].profit<<" ";
+        cout<<items[i].weight<<" ";
+        cout<<items[i].pw_ratio<<endl;
     }
-
-    sort(items.rbegin(), items.rend());
-    for(int i = 0; i < n; i++)
-    {
-        int weight = items[i].second.first;
-        if(weight <= maxWeight)
-        {
-            cout << "The item taken is : weight = " << weight << " profit = "<< items[i].second.second << "\n";
-            maxProfit += items[i].second.second;
-            maxWeight -= weight;
-        }
-        else
-            break;
-    }
-
-    cout << "The maximum profit that can be made is : " << maxProfit << "\n\n";
-
+    cout<<endl;
 }
 
-int main()
-{
-    int n, maxWeight;
-    cout << "Enter the number of items in knapsack : ";
-    cin >> n;
-    cout << "Enter the maxweight of the knapsack : ";
-    cin >> maxWeight;
 
-    vector<int> weight, profit;
-    for(int i = 0; i < n; i++)
-    {
-        int w, p;
-        cout << "Enter the weight and profit of the item ( "<<i+1 << " ) : ";
-        cin >> w >> p;
-        weight.push_back(w);
-        profit.push_back(p);
+void merge(Item items[], int start, int mid, int end){
+    int lSize = mid - start + 1;
+    int rSize = end - mid;
+
+    Item lArr[lSize];
+    Item rArr[rSize];
+
+    // fill up these left and right array
+    for(int i = 0; i<lSize; i++) lArr[i] = items[i+start];
+    for(int i = 0; i<rSize; i++) rArr[i] = items[i+mid+1];
+
+    int i = 0, j = 0, k = start;
+
+    while(i<lSize && j<rSize){
+        if(lArr[i].pw_ratio > rArr[j].pw_ratio)
+            items[k++] = lArr[i++];
+        else
+            items[k++] = rArr[j++];
     }
+
+    while(i<lSize) items[k++] = lArr[i++];
+    while(j<rSize) items[k++] = rArr[j++];
+}
+
+void merge_sort(Item items[], int low, int high){
+    if(low>=high) return;
+
+    int mid = (high+low)/2;
+
+    merge_sort(items, low, mid);
+    merge_sort(items, mid+1, high);
+    merge(items, low, mid, high);
+}
+
+void knapsack(Item items[], int maxWeight, int n){
+    float maxProfit = 0;
     
-    cout << "\nThe input data is : \n\nWeight\t\tProfit\n";
-    for(int i = 0; i < n; i++)
-    {
-        cout << weight[i] << "\t\t" << profit[i] << "\n";
+    for(int i = 0; i<n; i++){
+        if(maxWeight>0 && items[i].weight <= maxWeight){
+            // reduce the maxWeight as we are taking the i'th item
+            maxWeight = maxWeight - items[i].weight;
+            maxProfit = maxProfit + items[i].profit;
+        }
+        else if(maxWeight > 0 && items[i].weight > maxWeight){
+            // fraction condition
+            // float fractionalProfit = items[i].pw_ratio * maxWeight;
+            // maxWeight = 0;
+            // maxProfit += fractionalProfit;
+            break;
+        }
     }
-    cout << "\n";
 
-    greedyKnapsack(weight, profit, n, maxWeight);
+    cout<<"Weight of knapsack became: "<<maxWeight<<endl;
+    cout<<"Maximum profit obtained: "<<maxProfit<<endl;
+}
 
+
+
+int main(){
+    int n, capacity;
+    cout<<"Enter number of Items: ";
+    cin>>n;
+    cout<<"Enter capacity of knapsack: ";
+    cin>>capacity;
+
+    Item items[n];
+
+    cout<<"Enter weight of each items: "<<endl;
+    for(int i = 0; i<n; i++){
+        float w;
+        cin>>w;
+        items[i].weight = w;
+    }
+    cout<<"Enter profit of each items: "<<endl;
+    for(int i = 0; i<n; i++){
+        float p;cin>>p;
+        items[i].profit = p;
+        items[i].pw_ratio = (items[i].profit / items[i].weight);
+    }
+
+    // sort the knapsack based on profit weight ration
+    merge_sort(items, 0, n-1);
+    printKnapsack(items, n);
+    // compute the max profit
+    knapsack(items, capacity, n);
+
+    // for(int i = 0; i<n; i++){
+    //     cout<<items[i].profit<<" ";
+    //     cout<<items[i].weight<<" ";
+    //     cout<<items[i].pw_ratio<<endl;
+    // }
     return 0;
 }
