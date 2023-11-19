@@ -39,7 +39,6 @@ int main()
         vector<int> temp = {0};
         ar1.push_back(temp);
     }
-    
 
     //  calculating shortest path from 0 to all vertices
     for(int i = 0; i < V - 1; i++)
@@ -56,9 +55,11 @@ int main()
                 shortest[v] = shortest[u]+weight;
 
                 // path addition
-                vector<int> end = ar1[u];
+                vector<int> st = ar1[edges[j][0]-1];
+                vector<int> end = st;
+                // {edges[j][1]-1};
                 end.push_back(v);
-                ar1[v] = end;
+                ar1[edges[j][1]-1] = end;
 
             }
         }
@@ -68,12 +69,11 @@ int main()
 
     for(int i = 0; i < V; i++)
     {
-        cout << "Vertice:- "<<i+1 << " Distance:- "<<shortest[i]<<"\t\tPath : ";
+        cout << "Vertice:- "<<i << " Distance:- "<<shortest[i]<<"\t\tPath : ";
         for(int j = 0; j < ar1[i].size(); j++)
             cout << ar1[i][j] << " ";
         cout << "\n";
     }
-
 
     return 0;
     
