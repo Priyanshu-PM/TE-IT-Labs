@@ -1,8 +1,5 @@
-// Write a program to implement Fractional knapsack using Greedy algorithm 
-// and also find the maximum profit
-// Given items I= (I1,I2,I3,I4,I5), Weight w=(5,10,20,30,40) and Profit 
-// p=(30,20,100,90,160). Let us consider that the capacity of the knapsack W = 60. Find 
-// the maximum profit
+//  Greedy Implementation of 0 / 1 Knapsack
+
 
 #include <bits/stdc++.h>
 using namespace std;
