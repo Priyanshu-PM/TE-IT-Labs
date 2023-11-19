@@ -32,16 +32,16 @@ void dynamic_knapsack(vector<int>& weight, vector<int>& profit, int n, int maxWe
     {
         if(dp[i][w] != dp[i-1][w])
         {
-            selectedItems.push_back(i-1);
+            selectedItems.push_back(i);
             w -= weight[i-1];
         }
         i--;
     }
 
-    cout << "\nSelected items is : \n";
+    cout << "\nSelected items are : \n";
     for(int i = selectedItems.size()-1; i >= 0; i--)
     {
-        cout << selectedItems[i]+1 << " ";
+        cout << selectedItems[i] << " ";
     }
 
     cout << "\nThe maximum value that can be accumulated is : "<< dp[n][maxWeight] << "\n";
@@ -66,10 +66,10 @@ int main()
         profit.push_back(p);
     }
     
-    cout << "\nThe input data is : \n\nWeight\t\tProfit\n";
+    cout << "\nThe input data is : \n\nItem No.\tWeight\t\tProfit\n";
     for(int i = 0; i < n; i++)
     {
-        cout << weight[i] << "\t\t" << profit[i] << "\n";
+        cout << i+1 << "\t\t" << weight[i] << "\t\t" << profit[i] << "\n";
     }
     cout << "\n";
 
