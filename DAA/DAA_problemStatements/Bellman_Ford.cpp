@@ -1,80 +1,81 @@
 // Write a program to implement Bellman-Ford Algorithm using
 // Dynamic Programming and verify the time complexity
 
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<climits>
+//3 2 6 5 3 1 0 1 5 1 5 -3 1 2 -2 3 4 -2 2 4 3
 using namespace std;
 
-int main()
-{
-    int V;
-    cout << "Enter the number of vertices : ";
-    cin >> V;
-    int n_edges;
-    cout << "Enter the number of edges : ";
-    cin >> n_edges;
+// void copyVec(vector<int> &v1, const vector<int> &v2){
+//     for(int i = 0; i < v2.size(); i++){
+//         v1.push_back(v2[i]);
+//     }
+//     for(int i = 0; i < v2.size();i++){
+//         cout << v1[i] << " ";
+//     }
+//     cout << endl;
+// }
 
-    vector<vector<int>> edges(n_edges, vector<int>(3, 0));
+void bell(int noOfEdges, int noOfVertices, vector<vector<int>> &graph, vector<int> &dist){
 
-    cout << "\nEnter the input in this format :\n";
-    cout << "From |\tTo |\tWeight\n\n";
-    for(int i = 0; i < n_edges; i++)
-    {
-        cout << "Enter the values for edge ( "<< i+1 << " ) : ";
-        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];   //  taking the input
-    }
+    vector<vector<int>> path(noOfVertices, vector<int>(1, 0));
 
-    //  uni
-    int shortest[V];
-    for(int i = 0; i < V; i++)
-        shortest[i] = INT_MAX;
-
-    shortest[0] = 0;
-
-    //  finding the path
-    vector<vector<int>> ar1;
-
-    //  initializing the paths as 0
-    for(int i = 0; i < V; i++)
-    {
-        vector<int> temp = {0};
-        ar1.push_back(temp);
-    }
-
-    //  calculating shortest path from 0 to all vertices
-    for(int i = 0; i < V - 1; i++)
-    {
-        for(int j = 0; j < n_edges; j++)
-        {
-            int u = edges[j][0] - 1;
-            int v = edges[j][1] - 1;
-
-            int weight = edges[j][2];
-
-            if(shortest[u] != INT_MAX && shortest[u] + weight < shortest[v])
-            {
-                shortest[v] = shortest[u]+weight;
-
-                // path addition
-                vector<int> st = ar1[edges[j][0]-1];
-                vector<int> end = st;
-                // {edges[j][1]-1};
-                end.push_back(v);
-                ar1[edges[j][1]-1] = end;
-
+    for(int i = 0; i < noOfVertices-1; i++){
+        for(int j = 0; j < noOfEdges; j++){
+            int u = graph[j][0];
+            int v = graph[j][1];
+            int weight = graph[j][2];
+            if(dist[u] != INT_MAX && dist[u] + weight < dist[v]){
+                vector<int> temp = path[u];
+                // copyVec(temp, path[u]);
+                temp.push_back(v);
+                dist[v] = dist[u] + weight;
+                // copyVec(path[v], temp);
+                path[v] = temp;
             }
         }
     }
 
-    cout << "\nShortest paths and their distances respectively are : \n";
+    for(auto it : path){
+        for(auto i : it)
+            cout << i << ' ';
+        cout << endl;
+    }
+}
 
-    for(int i = 0; i < V; i++)
-    {
-        cout << "Vertice:- "<<i << " Distance:- "<<shortest[i]<<"\t\tPath : ";
-        for(int j = 0; j < ar1[i].size(); j++)
-            cout << ar1[i][j] << " ";
-        cout << "\n";
+
+
+int main(){
+    int noOfVertices;
+    cout << "Enter number of vertices > ";
+    cin >> noOfVertices;
+
+    int noOfEdges;
+    cout << "Enter number of Edges > ";
+    cin >> noOfEdges;
+
+    vector<vector<int>> graph(noOfEdges, vector<int>(3, 0));
+    cout << "Enter the edges like source destination weight : " << endl;
+    for(int i = 0; i < noOfEdges; i++){
+        // cout << "Edge " << i << " > ";
+        cin >> graph[i][0] >> graph[i][1] >> graph[i][2];
     }
 
+    int source;
+    cout << "Enter the source node > ";
+    cin >> source;    
+
+    vector<int> dist(noOfVertices, INT_MAX);
+    dist[source] = 0;
+
+    bell(noOfEdges, noOfVertices, graph, dist);
+
+    cout << "Minimum Distance form the source vertex " << source << " is :\n";
+    for(int i = 0; i < noOfVertices; i++){
+        cout << "Vertex " << i << ' ' << dist[i] << endl;
+    }
+
+
     return 0;
-    
 }
