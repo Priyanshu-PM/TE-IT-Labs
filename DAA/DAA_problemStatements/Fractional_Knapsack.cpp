@@ -36,6 +36,7 @@ void merge(Item items[], int start, int mid, int end){
         if(lArr[i].pw_ratio > rArr[j].pw_ratio)
             items[k++] = lArr[i++];
         else
+        
             items[k++] = rArr[j++];
     }
 

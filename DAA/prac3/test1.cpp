@@ -73,20 +73,18 @@ bool solveNQueens(vector<vector<char>>& board, int col, int n)
 	return false;
 }
 
-bool solveNQ(int n)
+void solveNQ(int n)
 {
 	vector<vector<char>> board(n, vector<char>(n, '.'));
 
 	if (solveNQueens(board, 0, n) == false) {
 		cout << "Solution does not exist";
-		return false;
 	}
     else {
         cout << "\n\nHence, the final board will be this : \n\n";
 	    printSolution(board, n);
         cout << "\n";
     }
-	return true;
 }
 
 int main()

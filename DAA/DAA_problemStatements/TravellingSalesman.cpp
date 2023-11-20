@@ -125,7 +125,7 @@ void TSP(vector<vector<int>>& source, int n, int start)
         int d = s;
         int min_cost = inf;
         vector<vector<int>> new_source = source;
-        cout << "Current location = " << s << "\tCost = "<<tcost << "\n";
+        cout << "Current location = " << s << "\tCost = " << tcost << "\n";
 
         for(int i = 0; i < n; i++)
         {
@@ -147,6 +147,7 @@ void TSP(vector<vector<int>>& source, int n, int start)
             cout << "\nLocation = " << i << "\tCost" << " = " << tcost << " + " << source[s][i] + " + " << r << " = " << c << endl;
             line(50);
 
+            //  used for selecting the least cost branch
             if(min_cost > c)
             {
                 d = i;
@@ -162,6 +163,7 @@ void TSP(vector<vector<int>>& source, int n, int start)
 
         line(50);
 
+        //  updating the current src
         s = d;
         
         //  updating the parent cost
