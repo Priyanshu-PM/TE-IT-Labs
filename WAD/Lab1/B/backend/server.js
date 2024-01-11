@@ -1,8 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const cors = require('cors')
+
 const app = express();
 const PORT = 3000;
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -13,7 +17,7 @@ app.post('/register', (req, res) => {
     // In a real application, you would save this data to a database
     console.log('Received registration data:', userData);
 
-    res.status(200).json({ message: 'User registered successfully' });
+    res.status(200).json({ message: userData });
 });
 
 app.listen(PORT, () => {

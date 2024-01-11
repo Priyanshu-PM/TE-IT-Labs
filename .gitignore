@@ -1,4 +1,5 @@
 *.exe
 *.docx
 *.zip
-*.html
+node_modules
+

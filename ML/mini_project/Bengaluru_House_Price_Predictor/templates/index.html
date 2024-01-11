@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>House Price Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body class="bg-dark" style="background-image: url('https://img.freepik.com/free-photo/3d-rendering-house-model_23-2150799695.jpg?size=626&ext=jpg'); background-color:'#ccccc'; background-size: cover;">
+    <!-- <h1>This is the index page</h1> -->
+
+    <div class="container">
+        <div class="row">
+            <div class="card" style="width: 100%; margin-top: 50px">
+                <div class="card-header" style="text-align: center">
+                    <h1>Welcome to House Price Predictor</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post" accept-charset="utf-8">
+                        
+                        <div class="row">
+                            <div class="col-md-6 form-group" style="text-align: center">
+                                <label>Select the location</br></label>
+                                <select name="location" id="location" class="selectpicker form-control">
+                                    {% for location in locations %}
+                                    <option value="{{ location }}">{{ location }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 form-group" style="text-align: center">
+                                <label>Enter BHK</br></label>
+                                <input type="text" class="form-control" id="bhk" name="bhk" placeholder="Enter the BHK">
+                            </div>
+
+                            <div class="col-md-6 form-group" style="text-align: center">
+                                <label>Enter number of Bathrooms</br></label>
+                                <input type="text" class="form-control" id="bath" name="bath" placeholder="Enter number of bathrooms">
+                            </div>
+
+                            <div class="col-md-6 form-group" style="text-align: center">
+                                <label>Enter Square feet</br></label>
+                                <input type="text" class="form-control" id="total_sqft" name="total_sqft" placeholder="Enter Square feet">
+                            </div>
+                            <br><br>
+                            <div class="col-md-12 form-group">
+                                <button class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                            </div>
+
+                        </div>
+
+                    </form>
+                <br>
+                    <div class="col-mid-12" style="text-align: center">
+                        <h1><span id="prediction"></span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function form_handler(event) {
+            event.preventDefault(); //  don't submit the form normally
+        }
+        function send_data() {
+            document.querySelector('form').addEventListener("submit", form_handler);
+
+            var fd = new FormData(document.querySelector('form'));
+
+            var xhr = new XMLHttpRequest();
+            
+            console.log("request hitting");
+            xhr.open('POST', '/predict', true);
+            document.getElementById("prediction").innerHTML = "Wait predicting Price...";
+
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState == XMLHttpRequest.DONE) {
+                    document.getElementById('prediction').innerHTML = "Prediction: Rs " + xhr.responseText;
+                }
+            };
+
+            xhr.onload = function(){
+                console.log("its working");
+                //do something here
+            }
+            // xhr.onloadend() = function() {};
+            xhr.send(fd);
+
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  </body>
+</html>

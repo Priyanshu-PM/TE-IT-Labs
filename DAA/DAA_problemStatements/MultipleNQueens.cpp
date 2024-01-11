@@ -45,7 +45,7 @@ void solveNQueens(vector<vector<vector<char>>>& solutions, vector<vector<char>>&
         return;
     }
     
-    cout << "\n\nChecking for column number : " << col <<endl;
+    // cout << "\n\nChecking for column number : " << col <<endl;
     for(int i = 0; i < n; i++)
     {
         if(isSafe(board, i, col, n))
@@ -53,17 +53,17 @@ void solveNQueens(vector<vector<vector<char>>>& solutions, vector<vector<char>>&
             board[i][col] = 'Q';
             solveNQueens(solutions, board, col+1, n);
 
-            cout << "\nBacktracking to check the other possibility \n\n";
+            // cout << "\nBacktracking to check the other possibility \n\n";
             board[i][col] = '.';
 
-            cout << "Hence the board will be : \n\n";
-            printSolution(board, n);
+            // cout << "Hence the board will be : \n\n";
+            // printSolution(board, n);
             
         }   
         else
         {
-            cout << "\n\nNot possible to place the queen at : [ " << i << " " << col << " ]"<<endl;
-            printSolution(board, n);
+            // cout << "\n\nNot possible to place the queen at : [ " << i << " " << col << " ]"<<endl;
+            // printSolution(board, n);
         }
     }
 
