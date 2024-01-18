@@ -13,10 +13,32 @@
       margin-top: 50px;
       max-width: 600px;
     }
+    .background-image-container {
+      background-image: url('https://images.unsplash.com/photo-1532457239977-d10462f33c4d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y29sbGVnZXN8ZW58MHx8MHx8fDA%3D'); /* Specify the path to your image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh; /* Adjust the height as needed */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .glassmorphism {
+      background: rgba(255, 255, 255, 0.15); /* Adjust the alpha value for transparency */
+      backdrop-filter: blur(1px); /* Adjust the blur value as needed */
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: white; /* Adjust the text color as needed */
+    }
+    .content {
+      text-align: center;
+      color: white; /* Adjust the text color as needed */
+    }
   </style>
 </head>
-<body>
-  <div class="container">
+<body class="background-image-container">
+  <div class="glassmorphism container">
     <h2 class="text-center mb-4">Registration Form</h2>
     <form id="registrationForm" onsubmit="saveData(event)">
       <div class="form-group">
