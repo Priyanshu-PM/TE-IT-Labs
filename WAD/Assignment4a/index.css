@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: auto;
+
+}
+    
+
+.ui-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: coral; */
+    height: 100vh;
+}
+
+
+#login-form {
+    max-width: 300px;
+    margin: 0 auto;
+
+}

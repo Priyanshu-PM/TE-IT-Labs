@@ -61,7 +61,7 @@ void isSystemSafe()
 					safeSequence[count++] = i;
 					
 					//	set the process finished to true
-					isProcessFinished[i] = false;
+					isProcessFinished[i] = true;
 					canAllocate = true;
 				}
 			}
